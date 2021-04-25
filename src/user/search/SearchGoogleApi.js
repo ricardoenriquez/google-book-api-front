@@ -1,78 +1,49 @@
-import React, { useState } from 'react'
-import {
-  getSearchBooks,
-  addFavoriteApi,
-  removeFavoriteApi
-} from '../../util/APIUtils'
-import { FaRegStar } from 'react-icons/fa'
-import { FaStar } from 'react-icons/fa'
+import React, { useState, useEffect } from 'react'
+import { getSearchBooks } from '../../util/APIUtils'
+import './Search.css'
+import CardBook from '../../common/components/cardBook/CardBook'
+import { connect } from 'react-redux'
+import { searchBooks } from '../../actions/bookApiAction'
 
-const SearchGoogleApi = () => {
+const SearchGoogleApi = ({ searchBooks, books }) => {
   const [txt, setTxt] = useState('')
   const [responseBooks, setResponseBooks] = useState([])
+  //const [responseBooks, setResponseBooks] = useState([{bookId:'sdfsdf23',title:'Java in Action',selfLink:'http:\\localhost:3000',subtitle:'subtitulo',thumbnail:'https://books.google.com/books/content?id=y361soCvNvsC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api',favorite:true}])
 
   const search = async () => {
+    //wait searchBooks(txt)
     const response = await getSearchBooks(txt)
     setResponseBooks(response)
   }
-
-  const addFavorite = async book => {
-    const response = await addFavoriteApi(book)
-    toggleFavorite(book.bookId, true)
-    console.log('agregar a favoritos ' + book.title)
-  }
-  const removeFavorite = async book => {
-    const response = await removeFavoriteApi(book)
-    toggleFavorite(book.bookId, true)
-    console.log('eliminar de favoritos ' + book.title)
-  }
-
-  const toggleFavorite = (bookId, favorite) => {
-    setResponseBooks(
-      responseBooks.map(book =>
-        book.bookId === bookId ? { ...book, favorite } : book
-      )
-    )
-  }
-
+  /*
+  useEffect(() => {
+    console.log('Actualizando libros')
+  }, [books])
+*/
   return (
     <div>
       <div className='container'>
-        <input
-          className='form-control'
-          type='search'
-          value={txt}
-          onChange={e => setTxt(e.target.value)}
-        />
-        <button className='btn btn-primary' onClick={() => search()}>
-          Search{' '}
-        </button>
-
         <div>
+          <div className='searcher'>
+            <input
+              className='form-control input-search'
+              type='search'
+              value={txt}
+              onChange={e => setTxt(e.target.value)}
+            />
+            <button
+              className='btn btn-primary btn-search'
+              onClick={() => search()}
+            >
+              Search{' '}
+            </button>
+          </div>
+        </div>
+        <div className='cards'>
           {responseBooks &&
             responseBooks.map(book => {
               return (
-                <div className='container' key={book.bookId}>
-                  <h5>{book.title}</h5>
-                  {book.thumbnail ? (
-                    <img src={book.thumbnail} />
-                  ) : (
-                    'Imagen not found'
-                  )}
-                  {book.favorite ? (
-                    <FaStar
-                      className='icon-start'
-                      size={50}
-                      onClick={() => removeFavorite(book)}
-                    />
-                  ) : (
-                    <FaRegStar
-                      className='icon-start'
-                      size={50}
-                      onClick={() => addFavorite(book)}
-                    />
-                  )}
-                </div>
+                <CardBook book={book} setResponseBooks={setResponseBooks} />
               )
             })}
         </div>
@@ -81,4 +52,8 @@ const SearchGoogleApi = () => {
   )
 }
 
-export default SearchGoogleApi
+const mapStateToProps = state => ({
+  books: state.bookApiReducer
+})
+
+export default connect(mapStateToProps, { searchBooks })(SearchGoogleApi)

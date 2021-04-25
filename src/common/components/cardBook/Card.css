@@ -1,0 +1,47 @@
+.icon-start {
+  cursor: pointer;
+  float: right;
+  margin-right: 20px;
+}
+.card-book {
+  display: block;
+  width: 100%;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 20px;
+  height: 200px;
+  border-style: solid;
+}
+.avatar {
+  border-radius: 10px;
+  width: 20%;
+  float: left;
+  height: 164px;
+}
+.description {
+  background-color: rgba(52, 52, 52, 0.4);
+  width: 80%;
+  float: right;
+  border-radius: 20px;
+  padding-left: 30px;
+  height: 165px;
+}
+.img-avatar {
+  max-width: 200px;
+}
+.show-more {
+  margin: 10px;
+  background-color: rgb(77, 76, 177);
+  border-radius: 10px;
+  color: white;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.show-more:hover {
+  margin: 10px;
+  background-color: rgba(6, 5, 109, 0.8);
+  border-radius: 10px;
+  color: white;
+  padding: 10px;
+  margin-bottom: 10px;
+}

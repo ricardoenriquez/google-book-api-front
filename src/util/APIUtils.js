@@ -1,4 +1,5 @@
 import { API_BASE_URL, ACCESS_TOKEN } from '../constants'
+import jwt_decode from 'jwt-decode'
 
 const request = options => {
   const headers = new Headers({
@@ -37,23 +38,23 @@ export function getCurrentUser () {
 }
 
 export function getSearchBooks (txt) {
-  const userId = 1
+  const userId = getUserId()
   if (!localStorage.getItem(ACCESS_TOKEN)) {
     return Promise.reject('No access token set.')
   }
 
   return request({
-    url: API_BASE_URL + '/api/book/findBooks/' + userId+'/'+ txt,
+    url: API_BASE_URL + '/api/book/findBooks/' + userId + '/' + txt,
     method: 'GET'
   })
 }
 
 export function addFavoriteApi (book) {
-  const userId = 1
-  const favorite = { userId: userId, bookId: book.bookId }
   if (!localStorage.getItem(ACCESS_TOKEN)) {
     return Promise.reject('No access token set.')
   }
+  const userId = getUserId()
+  const favorite = { userId: userId, bookId: book.bookId }
 
   return request({
     url: API_BASE_URL + '/api/book/markFavorite',
@@ -62,12 +63,17 @@ export function addFavoriteApi (book) {
   })
 }
 
+const getUserId = () => {
+  var decoded = jwt_decode(localStorage.getItem(ACCESS_TOKEN))
+  return decoded.sub
+}
+
 export function removeFavoriteApi (book) {
-  const userId = 1
-  const favorite = { userId: userId, bookId: book.bookId }
   if (!localStorage.getItem(ACCESS_TOKEN)) {
     return Promise.reject('No access token set.')
   }
+  const userId = getUserId()
+  const favorite = { userId: userId, bookId: book.bookId }
 
   return request({
     url: API_BASE_URL + '/api/book/removeFavorite',

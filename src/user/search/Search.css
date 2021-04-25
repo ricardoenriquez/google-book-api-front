@@ -1,16 +1,15 @@
-.aligning {
-  margin-left: 700px;
-  margin-top: 20px;
+.searcher {
+  display: block;
+  padding: 50px;
 }
-#imageButtom {
-  position: relative;
-  left: -10px;
-  top: -8px;
-  margin-bottom: 15px;
+.input-search {
+  float: left;
+  width: 80%;
 }
-#result {
-  margin-top: 50px;
+.btn-search {
+  float: right;
+  width: 20%;
 }
-.icon-start{
-    cursor:pointer;
+.cards {
+  width: 100%;
 }
