@@ -1,4 +1,4 @@
-# Google Book Api Fron in Reactjs
+# Google Book Api Front in Reactjs
 
 Api where resources will be exposed for user creation, search for resources in google book api, save favorite books etc..
 
